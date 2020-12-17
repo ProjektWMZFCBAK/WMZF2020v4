@@ -24,10 +24,6 @@ if dane == 'ręcznie':
         print('c NIE MOŻE BY WIĘKSZE OD LUB RÓWNE a')
         exit()
 
-    a = float(input('Podaj wielką półoś elipsy: '))
-    if a == 0:
-        print('a NIE MOŻE BY RÓWNE 0')
-        exit()
     S = float(input('Podaj pole powierzchni zakreslane przez promien wodzacy: '))
     if S == 0:
         print('S NIE MOŻE BY RÓWNE 0')
@@ -117,8 +113,30 @@ def prawo_3(): # (R1^3)/(R2^3) = (T1^2)/(T2^2) #w zadaniach prawo te może słu�
 
 #w tej częsci program wylicza orbite w funkcji 'orbita' na podstawie wpisanych danych wstawionych do trzech zdefiniowanych funkcji praw keplera
 
-#def orbita():
-#    return orbita()
+def orbita(): #treść funkcji zostanie dopraowana i ewentualnie zmieniona
+    import numpy as np
+    cos = np.cos
+    pi = np.pi
+    if dane == 'ręcznie':
+        a = float(input('Podaj wielką półoś elipsy: '))
+        c = float(input('Podaj odcinek między środkiem a jednym z ognisk elipsy: '))
+        e = c/a
+    else:
+        n = float(input('Podaj nazwę planety: '))
+        semimajor_axis = open('półosie.txt', "r")
+        distance_center = open('odcinki.txt', "r")
+        a = semimajor_axis.get(n)
+        c = distance_center.get(n)
+        e = c/a
+    theta = np.linspace(0, 2 * pi, 360)
+    r = (a * (1 - e ** 2)) / (1 + e * cos(theta))
+    plt.polar(theta, r)
+
+    print(np.c_[r, theta])
+
+    plt.show()
+    plt.savefig('prawakeplera.pdf')
+    return orbita()
 
 
 #rysowanie wykresu
